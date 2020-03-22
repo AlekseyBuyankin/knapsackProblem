@@ -1,29 +1,6 @@
-from random import randint
-
 global resArr
 resArr = []
-
-
-# def getAllData(amountOfItems: int, knapsackWeight: int):
-#     weights = []
-#     values = []
-#
-#     while len(weights) != amountOfItems or len(values) != amountOfItems:
-#         weights = list(set([randint(2, knapsackWeight) for _ in range(amountOfItems)]))  # веса
-#         values = list(set([randint(2, amountOfItems * 2) for _ in range(amountOfItems)]))  # ценность
-#
-#     resTuple = []
-#
-#     for i in range(len(weights)):
-#         resTuple.append(tuple([weights[i], values[i]]))
-#
-#     return resTuple
-
-
 def exhaustiveSearch(amountOfItems: int, data: list):
-    # data = [(5, 10), (8, 7), (2, 2), (4, 6), (1, 3)]
-    # data = [(2, 2), (2, 6), (2, 3)]
-
     recSearch(data, 0, [], amountOfItems)
 
 
@@ -66,5 +43,4 @@ def printExhaustiveSearch(amountOfItems, knapsackWeight, tupleList):
     maxValue, savedWeight, savedPairs = findMaxValue(knapsackWeight)
 
     print('\nПолный перебор:')
-    print('Макс. вместимость рюкзака:', knapsackWeight)
     print('Макс. стоимость:', maxValue, 'Вес:', savedWeight, 'Список пар:', savedPairs)

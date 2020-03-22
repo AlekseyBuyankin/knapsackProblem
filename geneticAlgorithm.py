@@ -1,18 +1,3 @@
-# Создать случайный набор особей — популяцию.
-# Подсчитать функцию приспособления для каждой особи.
-# Оставить только наиболее приспособленных особей (естественный отбор).
-# Произвести скрещивания особей.
-# Подвергнуть потомков мутации.
-# Продолжить со второго шага.
-#
-# 1) Первоначальная популяция
-# 2) Селекция (отбор) столько же, сколько было в начале размножения + счастливчики (например, 30 % в каждой популяции)
-# 3) Скрещивание с элементами случайности - увеличение количества особей в, например, 4 раза.
-# 4) Мутация
-# 5) Встряска - уничтожение почти всей популяции и добавление новых (случайных) особей.
-#    Если минимум не меняется k шагов. то производится, например,
-#    "экстремальная мутация" - мутация происходит более интенсивно, чем обычно.
-
 from random import randint, shuffle
 from knapsackProblem0_1 import printMatrix
 
@@ -50,8 +35,6 @@ def fitnessFunction(population: list, weights: list, values: list, knapsackWeigh
 
     less_than_weight = list(sorted(list(filter(lambda k: k[1] <= knapsackWeight, allData)),
                                    key=lambda k: k[2], reverse=True))
-    # less_than_weight = list(filter(lambda k: k[1] <= knapsackWeight, allData))
-
     return allData, less_than_weight
 
 
@@ -106,38 +89,18 @@ def geneticAlgorithm(amountOfItems, knapsackWeight, weights, values, numberOfGen
     numberOfIndividuals = 10  # количество особей в первой популяции
     population = getData(amountOfItems, numberOfIndividuals)
 
-    # print(weights)
-    # print(values)
-    # print('\nПервая популяция:')
-    # printMatrix(population)
-
     preResultedPopulation = []
     for number in range(numberOfGenerations + 1):
-        # print('Номер популяции:', number, '\n')
         selectedPopulation = selection(population, weights, values, knapsackWeight)
 
-        # print('Популяция после отбора:')
-        # printMatrix(selectedPopulation)
-
         crossedPopulation = crossing(selectedPopulation, numberOfIndividuals)
-        #
-        # print('После скрещивания:')
-        # printMatrix(crossedPopulation)
-
         mutatedPopulation = mutation(crossedPopulation)
-
-        # print('После мутации:')
-        # printMatrix(mutatedPopulation)
-
         # готовимся к следующему раунду
         population = list(mutatedPopulation)
 
         _, preResultedPopulation = fitnessFunction(population, weights, values, knapsackWeight)
         if not preResultedPopulation:
             numberOfGenerations += 1
-        # else:
-        #     print('Лучшая особь:')
-        #     print(less_than_weight[0])
 
     return preResultedPopulation[0]
 
@@ -148,5 +111,5 @@ def printGeneticAlgorithm(amountOfItems, knapsackWeight, weights, values, number
     resultedPopulation = getAnswer(preResultedPopulation, weights, values)
 
     print('\nГенетический алгоритм:')
-    print('Макс. вместимость рюкзака:', knapsackWeight)
-    print('Макс. стоимость:', resultedPopulation[2], 'Вес:', resultedPopulation[1], 'Список пар:', resultedPopulation[0])
+    print('Макс. стоимость:', resultedPopulation[2], 'Вес:', resultedPopulation[1], 'Список пар:',
+          resultedPopulation[0])

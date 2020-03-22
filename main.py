@@ -33,6 +33,9 @@ if __name__ == '__main__':
     # knapsackWeight = int(amountOfItems * 2.5)
     knapsackWeight = 14
 
+    print('Количество предметов:', amountOfItems)
+    print('Макс. вместимость рюкзака:', knapsackWeight)
+
     # tupleList - для полного перебора [(w0, v0), ..., (wi, vi), ..., (wn, vn)]
     # m, weights, values, pairsMatrix - для задаче о рюкзаке 0-1
     tupleList, m, weights, values, pairsMatrix, greedyMatrix = getAllData(amountOfItems, knapsackWeight)

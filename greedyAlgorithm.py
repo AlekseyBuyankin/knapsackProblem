@@ -17,5 +17,4 @@ def printGreedyAlgorithm(greedyMatrix: list, amountOfItems: int, knapsackWeight:
     weight = sum([w for w, _ in pairs])
 
     print('\nЖадный алгоритм:')
-    print('Макс. вместимость рюкзака:', knapsackWeight)
     print('Макс. стоимость:', maxValue, 'Вес:', weight, 'Список пар:', pairs)
