@@ -1,5 +1,8 @@
 from random import randint, shuffle
+from datetime import datetime
 from knapsackProblem0_1 import printMatrix
+from numpy import var, sqrt, random
+import numpy as np
 
 
 def getData(amountOfItems, numberOfIndividuals):
@@ -39,16 +42,27 @@ def fitnessFunction(population: list, weights: list, values: list, knapsackWeigh
 
 
 # селекция (отбор)
-def selection(population: list, weights, values, knapsackWeight: int):
+def sigmaClippingSelection(population: list, weights, values, knapsackWeight: int):
     allData, less_than_weight = fitnessFunction(population, weights, values, knapsackWeight)
 
-    if len(less_than_weight) < len(allData) // 2:
-        for i in range(len(allData) // 2 - len(less_than_weight)):
-            less_than_weight.append(allData[i])
+    h = [ind[1] for ind in allData]
+    favg = sum(h) / len(allData)
+    Fis = [1 + (fi - favg) / (2 * sqrt(var(h))) for fi in h]
+    pi = np.array([Fi / sum(Fis) for Fi in Fis])
+    sumNegPi = sum(list(filter(lambda p: p < 0, pi)))
 
-    less_than_weight = list(sorted(less_than_weight, key=lambda k: k[2], reverse=True))[0: len(allData) // 2]
+    pi = [0 if p < 0 else p for p in pi]
 
-    return less_than_weight
+    if sumNegPi != 0:
+        pi[0] += sumNegPi
+
+    pi = [0 if np.isnan(p) else p for p in pi]
+
+    indexes = [x for x in range(len(allData))]
+    resIndexes = random.choice(indexes, len(indexes) // 2, p=pi, replace=False)
+    resList = [allData[i] for i in resIndexes]
+
+    return resList
 
 
 # скрещивание
@@ -70,46 +84,49 @@ def crossing(selectedPopulation, numberOfIndividuals):
 def mutation(crossedPopulation):
     mutatedPopulation = [[x if randint(0, 9) > 1 else int(not x) for x in crossedPopulation[i]]
                          for i in range(len(crossedPopulation))]
-
     return mutatedPopulation
 
 
 # супермутация - когда происходит вырождение популяции
 def superMutation(crossedPopulation):
-    printMatrix(crossedPopulation)
-    mutatedPopulation = [[x if randint(0, 9) > 4 else int(not x) for x in crossedPopulation[i]]
+    mutatedPopulation = [[x if randint(0, 9) > 3 else int(not x) for x in crossedPopulation[i]]
                          for i in range(len(crossedPopulation))]
-
-    printMatrix(mutatedPopulation)
-
     return mutatedPopulation
 
 
 def geneticAlgorithm(amountOfItems, knapsackWeight, weights, values, numberOfGenerations):
-    numberOfIndividuals = 10  # количество особей в первой популяции
+    numberOfIndividuals = amountOfItems * 2  # количество особей в первой популяции
     population = getData(amountOfItems, numberOfIndividuals)
-
     preResultedPopulation = []
+
     for number in range(numberOfGenerations + 1):
-        selectedPopulation = selection(population, weights, values, knapsackWeight)
+        selectedPopulation = sigmaClippingSelection(population, weights, values, knapsackWeight)
 
         crossedPopulation = crossing(selectedPopulation, numberOfIndividuals)
+
         mutatedPopulation = mutation(crossedPopulation)
+
         # готовимся к следующему раунду
         population = list(mutatedPopulation)
 
-        _, preResultedPopulation = fitnessFunction(population, weights, values, knapsackWeight)
-        if not preResultedPopulation:
-            numberOfGenerations += 1
+        allData, preResultedPopulation = fitnessFunction(population, weights, values, knapsackWeight)
 
     return preResultedPopulation[0]
 
 
 def printGeneticAlgorithm(amountOfItems, knapsackWeight, weights, values, numberOfGenerations):
+    t0 = datetime.now()
     preResultedPopulation = geneticAlgorithm(amountOfItems, knapsackWeight, weights, values, numberOfGenerations)
 
     resultedPopulation = getAnswer(preResultedPopulation, weights, values)
 
-    print('\nГенетический алгоритм:')
-    print('Макс. стоимость:', resultedPopulation[2], 'Вес:', resultedPopulation[1], 'Список пар:',
-          resultedPopulation[0])
+    print('Генетический алгоритм:')
+    s0 = 'Макс. стоимость: ' + str(resultedPopulation[2])
+    s1 = 'Вес: ' + str(resultedPopulation[1])
+    s2 = 'Список пар: ' + str(resultedPopulation[0])
+    print(s0, s1, 'Затраченное время:',
+          str((datetime.now() - t0).seconds) + '.' + str((datetime.now() - t0).microseconds) + ' сек.')
+
+    # print('Макс. стоимость:', resultedPopulation[2], 'Вес:', resultedPopulation[1], 'Список пар:',
+    #       resultedPopulation[0], 'Затраченное время:', str((datetime.now() - t0).seconds) + '.' +
+    #       str((datetime.now() - t0).microseconds) + ' сек.')

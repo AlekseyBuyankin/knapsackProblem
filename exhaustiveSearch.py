@@ -1,5 +1,9 @@
+from datetime import datetime
+
 global resArr
 resArr = []
+
+
 def exhaustiveSearch(amountOfItems: int, data: list):
     recSearch(data, 0, [], amountOfItems)
 
@@ -39,8 +43,17 @@ def findMaxValue(knapsackWeight):
 
 
 def printExhaustiveSearch(amountOfItems, knapsackWeight, tupleList):
+    t0 = datetime.now()
     exhaustiveSearch(amountOfItems, tupleList)
     maxValue, savedWeight, savedPairs = findMaxValue(knapsackWeight)
 
-    print('\nПолный перебор:')
-    print('Макс. стоимость:', maxValue, 'Вес:', savedWeight, 'Список пар:', savedPairs)
+    print('Полный перебор:')
+    s0 = 'Макс. стоимость: ' + str(maxValue)
+    s1 = 'Вес: ' + str(savedWeight)
+    s2 = 'Список пар: ' + str(savedPairs)
+    print(s0, s1, 'Затраченное время:',
+          str((datetime.now() - t0).seconds) + '.' + str((datetime.now() - t0).microseconds) + ' сек.')
+    #
+    # print('Макс. стоимость:', maxValue, 'Вес:', savedWeight, 'Список пар:', savedPairs, 'Затраченное время:',
+    #       str((datetime.now() - t0).seconds) + '.' +
+    #       str((datetime.now() - t0).microseconds) + ' сек.')

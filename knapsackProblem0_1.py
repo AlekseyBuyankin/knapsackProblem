@@ -1,5 +1,8 @@
+from datetime import datetime
+
+
 def printMatrix(m):
-    print('\n'.join(str(e) for e in m) + '\n')
+    print('\n'.join(str(i) + ': ' + str(e) for i, e in enumerate(m)) + '\n')
 
 
 def knapsackProblem0_1(amountOfItems, knapsackWeight, m, weights, values, pairsMatrix):
@@ -23,7 +26,16 @@ def knapsackProblem0_1(amountOfItems, knapsackWeight, m, weights, values, pairsM
 
 
 def printKnapsackProblem0_1(amountOfItems, knapsackWeight, m, weights, values, pairsMatrix):
+    t0 = datetime.now()
     pairs, maxValue, weight = knapsackProblem0_1(amountOfItems, knapsackWeight, m, weights, values, pairsMatrix)
 
-    print('\nЗадача о рюкзаке 0-1:')
-    print('Макс. стоимость:', maxValue, 'Вес:', weight, 'Список пар:', pairs)
+    print('Задача о рюкзаке 0-1:')
+    s0 = 'Макс. стоимость: ' + str(maxValue)
+    s1 = 'Вес: ' + str(weight)
+    s2 = 'Список пар: ' + str(pairs)
+    print(s0, s1, 'Затраченное время:',
+          str((datetime.now() - t0).seconds) + '.' + str((datetime.now() - t0).microseconds) + ' сек.')
+    #
+    # print('Макс. стоимость:', maxValue, 'Вес:', weight, 'Список пар:', pairs, 'Затраченное время:',
+    #       str((datetime.now() - t0).seconds) + '.' +
+    #       str((datetime.now() - t0).microseconds) + ' сек.')
