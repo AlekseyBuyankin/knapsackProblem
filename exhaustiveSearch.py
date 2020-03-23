@@ -53,7 +53,3 @@ def printExhaustiveSearch(amountOfItems, knapsackWeight, tupleList):
     s2 = 'Список пар: ' + str(savedPairs)
     print(s0, s1, 'Затраченное время:',
           str((datetime.now() - t0).seconds) + '.' + str((datetime.now() - t0).microseconds) + ' сек.')
-    #
-    # print('Макс. стоимость:', maxValue, 'Вес:', savedWeight, 'Список пар:', savedPairs, 'Затраченное время:',
-    #       str((datetime.now() - t0).seconds) + '.' +
-    #       str((datetime.now() - t0).microseconds) + ' сек.')

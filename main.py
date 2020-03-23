@@ -1,4 +1,3 @@
-from random import randint, shuffle
 from exhaustiveSearch import *
 from geneticAlgorithm import *
 from knapsackProblem0_1 import *
@@ -6,13 +5,6 @@ from greedyAlgorithm import *
 
 
 def getAllData(amountOfItems: int, knapsackWeight: int):
-    weights = []
-    values = []
-
-    # while len(weights) != amountOfItems or len(values) != amountOfItems:
-    #     weights = list(set([randint(2, knapsackWeight // 5) for _ in range(amountOfItems)]))  # веса
-    #     values = list(set([randint(2, amountOfItems * 2) for _ in range(amountOfItems)]))  # ценность
-
     weights = [randint(2, amountOfItems) for _ in range(amountOfItems)]  # веса
     values = [randint(2, amountOfItems * 2) for _ in range(amountOfItems)]  # ценность
 
@@ -33,7 +25,6 @@ def getAllData(amountOfItems: int, knapsackWeight: int):
 if __name__ == '__main__':
     # Определяем входные данные:
     amountOfItems = 5
-    # knapsackWeight = int(amountOfItems * 2.5)
     knapsackWeight = amountOfItems * 15
 
     print('Количество предметов:', amountOfItems)
@@ -42,7 +33,6 @@ if __name__ == '__main__':
     # tupleList - для полного перебора [(w0, v0), ..., (wi, vi), ..., (wn, vn)]
     # m, weights, values, pairsMatrix - для задаче о рюкзаке 0-1
     tupleList, m, weights, values, pairsMatrix, greedyMatrix = getAllData(amountOfItems, knapsackWeight)
-    # print(tupleList)
 
     # Полный перебор
     printExhaustiveSearch(amountOfItems, knapsackWeight, tupleList)

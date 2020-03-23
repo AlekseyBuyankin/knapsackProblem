@@ -87,13 +87,6 @@ def mutation(crossedPopulation):
     return mutatedPopulation
 
 
-# супермутация - когда происходит вырождение популяции
-def superMutation(crossedPopulation):
-    mutatedPopulation = [[x if randint(0, 9) > 3 else int(not x) for x in crossedPopulation[i]]
-                         for i in range(len(crossedPopulation))]
-    return mutatedPopulation
-
-
 def geneticAlgorithm(amountOfItems, knapsackWeight, weights, values, numberOfGenerations):
     numberOfIndividuals = amountOfItems * 2  # количество особей в первой популяции
     population = getData(amountOfItems, numberOfIndividuals)
@@ -126,7 +119,3 @@ def printGeneticAlgorithm(amountOfItems, knapsackWeight, weights, values, number
     s2 = 'Список пар: ' + str(resultedPopulation[0])
     print(s0, s1, 'Затраченное время:',
           str((datetime.now() - t0).seconds) + '.' + str((datetime.now() - t0).microseconds) + ' сек.')
-
-    # print('Макс. стоимость:', resultedPopulation[2], 'Вес:', resultedPopulation[1], 'Список пар:',
-    #       resultedPopulation[0], 'Затраченное время:', str((datetime.now() - t0).seconds) + '.' +
-    #       str((datetime.now() - t0).microseconds) + ' сек.')

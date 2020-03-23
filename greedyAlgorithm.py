@@ -26,7 +26,3 @@ def printGreedyAlgorithm(greedyMatrix: list, amountOfItems: int, knapsackWeight:
     s2 = 'Список пар: ' + str(pairs)
     print(s0, s1, 'Затраченное время:',
           str((datetime.now() - t0).seconds) + '.' + str((datetime.now() - t0).microseconds) + ' сек.')
-    #
-    # print('Макс. стоимость:', maxValue, 'Вес:', weight, 'Список пар:', pairs, 'Затраченное время:',
-    #       str((datetime.now() - t0).seconds) + '.' +
-    #       str((datetime.now() - t0).microseconds) + ' сек.')
